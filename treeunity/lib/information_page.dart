@@ -10,6 +10,9 @@ class InformationPage extends StatefulWidget {
 class _InformationPageState extends State<InformationPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+        child: Row(
+      children: [Text("1"), Text("2")],
+    ));
   }
 }
