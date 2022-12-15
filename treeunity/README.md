@@ -1,6 +1,6 @@
-# treeunity
+# Treeunity
 
-A new Flutter project.
+Eine App, die den Bernauer Stadtpark bewerben soll.
 
 ## Getting Started
 
