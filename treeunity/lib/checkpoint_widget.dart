@@ -26,20 +26,21 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                 BoxDecoration(color: Colors.green, shape: BoxShape.circle),
             height: 100,
             child: Center(
-                child: Container(
-              child: Text(
-                widget.id.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 35),
+              child: Container(
+                margin: EdgeInsets.all(15),
+                child: Text(
+                  widget.id.toString(),
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
               ),
-              margin: EdgeInsets.all(18),
-            )),
+            ),
           ),
           Container(
+            margin: EdgeInsets.only(left: 10),
             child: Text(
               widget.title,
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 22),
             ),
-            margin: EdgeInsets.only(left: 10),
           ),
         ],
       ),

@@ -79,6 +79,18 @@ class _MyHomePageState extends State<MyHomePage> {
       CheckpointWidget(
         title: "Pulverturm",
         id: 1,
+      ),
+      CheckpointWidget(
+        title: "Stadthaus",
+        id: 2,
+      ),
+      CheckpointWidget(
+        title: "Spielplatz",
+        id: 3,
+      ),
+      CheckpointWidget(
+        title: "Eiche",
+        id: 4,
       )
     ]),
     InformationPage(),

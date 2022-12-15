@@ -17,9 +17,10 @@ class _InformationPageState extends State<InformationPage> {
   }
 
   wetter() async {
-    WeatherFactory wf = new WeatherFactory("d6036fc2d5d9a22a18b1b7320ef6ac23",
+    WeatherFactory wf = WeatherFactory("4b3ac13c71f264b8d8d5caf0870cba94",
         language: Language.GERMAN);
-    Weather w = await wf.currentWeatherByCityName('Bernau bei Berlin');
+    //Weather w = await wf.currentWeatherByCityName('Bernau bei Berlin');
+    List<Weather> forecast = await wf.fiveDayForecastByCityName("Berlin");
   }
 
   @override
