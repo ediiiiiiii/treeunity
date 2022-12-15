@@ -18,21 +18,31 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Row(children: [
-        Container(
-          decoration:
-              BoxDecoration(color: Colors.green, shape: BoxShape.circle),
-          height: 80,
-          child: Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration:
+                BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+            height: 100,
+            child: Center(
+                child: Container(
               child: Text(
-            widget.id.toString(),
-            style: TextStyle(color: Colors.white, fontSize: 35),
-          )),
-        ),
-        Container(
-          child: Text(widget.title),
-        )
-      ]),
+                widget.id.toString(),
+                style: TextStyle(color: Colors.white, fontSize: 35),
+              ),
+              margin: EdgeInsets.all(18),
+            )),
+          ),
+          Container(
+            child: Text(
+              widget.title,
+              style: TextStyle(fontSize: 25),
+            ),
+            margin: EdgeInsets.only(left: 10),
+          ),
+        ],
+      ),
       onTap: () {
         print("Tap");
         Navigator.push(
