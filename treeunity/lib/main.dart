@@ -58,44 +58,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final List<Widget> _pages = <Widget>[
-    ListView(
-      children: [
-        Container(
+    ListView(children: [
+      Container(
           child: Column(
-            children: [
-              Text(
-                "Stationen",
-                style: TextStyle(fontSize: 30),
-              ),
-              Text("Tippe auf eine Station, um mehr über sie zu erfahren")
-            ],
-            mainAxisAlignment: MainAxisAlignment.start,
-          ),
-          margin: EdgeInsets.all(20),
+              children: [
+                Text("Stationen",
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
+                Text("Tippe auf eine Station, um mehr über sie zu erfahren.")
+              ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly),
+          margin: EdgeInsets.fromLTRB(35, 20, 35, 20),
           height: 100,
-          alignment: Alignment.centerLeft,
-        ),
-        CheckpointWidget(
-          title: "Pulverturm",
-          id: 1,
-        ),
-        CheckpointWidget(
-          title: "Stadthaus",
-          id: 2,
-        ),
-        CheckpointWidget(
-          title: "Spielplatz",
-          id: 3,
-        ),
-        CheckpointWidget(
-          title: "Eiche",
-          id: 4,
-        )
-      ],
-      physics: BouncingScrollPhysics(),
-    ),
+          alignment: Alignment.centerLeft),
+      CheckpointWidget(title: "Pulverturm", id: 1, position: 0.1),
+      CheckpointWidget(title: "Stadthaus", id: 2, position: 0.4),
+      CheckpointWidget(title: "Spielplatz", id: 3, position: 0.8),
+      CheckpointWidget(title: "Eiche", id: 4, position: 0.6)
+    ], physics: BouncingScrollPhysics()),
     InformationPage(),
-    Text("3 Seite"),
+    Text("3. Seite")
   ];
 
   @override
