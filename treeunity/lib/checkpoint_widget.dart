@@ -27,9 +27,21 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
           ]),
           Container(
               margin: EdgeInsets.only(left: 10),
-              width: 160,
-              child: Text(widget.title,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200)))
+              width: 200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.w200),
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    "0 von 5 Fragen beantwortet",
+                    style: TextStyle(fontSize: 16),
+                  )
+                ],
+              ))
         ]),
         onTap: () {
           Navigator.push(context,
@@ -45,7 +57,10 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
         child: Container(
           margin: EdgeInsets.all(22),
           child: Text(widget.id.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 30)),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700)),
         ),
       ),
     );

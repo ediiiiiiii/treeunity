@@ -64,8 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text("Stationen",
                     style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
-                Text("Tippe auf eine Station, um mehr über sie zu erfahren.")
+                        TextStyle(fontSize: 32, fontWeight: FontWeight.w700)),
+                Text(
+                  "Tippe auf eine Station, um mehr über sie zu erfahren.",
+                  style: TextStyle(fontSize: 16),
+                )
               ],
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly),
@@ -89,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text(
               widget.title,
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
             ),
             Text(
               "Die Stadtpark-App",
