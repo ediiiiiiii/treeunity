@@ -67,13 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 "Stationen",
                 style: TextStyle(fontSize: 30),
               ),
-              Text(
-                  "Der Stadtpark und seine wundervolle App. Das hier ist ein tolles Tutorial.")
+              Text("Tippe auf eine Station, um mehr über sie zu erfahren")
             ],
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
           ),
           margin: EdgeInsets.all(20),
           height: 100,
+          alignment: Alignment.centerLeft,
         ),
         CheckpointWidget(
           title: "Pulverturm",
@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           id: 4,
         )
       ],
-      physics: ClampingScrollPhysics(),
+      physics: BouncingScrollPhysics(),
     ),
     InformationPage(),
     Text("3 Seite"),
