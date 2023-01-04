@@ -37,13 +37,13 @@ class CheckpointWidget extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.w200),
+                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.start,
                   ),
                   numberOfQuestions != 0
                       ? Text(
                           "$questionsAnswered von $numberOfQuestions Fragen beantwortet",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 15),
                         )
                       : Container()
                 ],

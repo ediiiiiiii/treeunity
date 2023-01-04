@@ -19,7 +19,7 @@ class StationenWidget extends StatelessWidget {
               children: [
                 Text("Stationen",
                     style:
-                        TextStyle(fontSize: 32, fontWeight: FontWeight.w700)),
+                        TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
                 Text(
                   "Tippe auf eine Station, um mehr über sie zu erfahren. Beantworte die Fragen, um im Lernpfad weiterzukommen.",
                   style: TextStyle(fontSize: 16),

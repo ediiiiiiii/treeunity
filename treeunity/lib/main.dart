@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:treeunity/checkpoint_builder.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Treeunity',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        textTheme: GoogleFonts.latoTextTheme(
+        textTheme: GoogleFonts.openSansTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
@@ -60,59 +61,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  final List<Widget> _pages = <Widget>[
-    MainPage(),
-    InformationPage(),
-    Text("3. Seite")
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: [
-            Text(
-              widget.title,
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            children: [
+              Text(
+                widget.title,
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+              ),
+              Text(
+                "Die Stadtpark-App",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+              )
+            ],
+          ),
+          centerTitle: true,
+          toolbarHeight: 85,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(40),
             ),
-            Text(
-              "Die Stadtpark-App",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-            )
-          ],
-        ),
-        centerTitle: true,
-        toolbarHeight: 85,
-        shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
           ),
         ),
-      ),
-      body: _pages.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_nature_rounded),
-            label: 'Lernpfad',
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Informationen',
-            backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Einstellungen',
-            backgroundColor: Colors.pink,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        onTap: _onItemTapped,
+        body: TabBarView(children: [MainPage(), InformationPage(), Text("ho")]),
+        bottomNavigationBar: Container(
+          child: TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.emoji_nature), child: Text("Lernpfad")),
+                Tab(
+                    icon: Icon(Icons.info_outline_rounded),
+                    child: Text("Information")),
+                Tab(icon: Icon(Icons.settings), child: Text("Einstellungen"))
+              ],
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white70,
+              indicatorColor: Colors.green[100]),
+          color: Colors.green,
+        ),
       ),
     );
   }
