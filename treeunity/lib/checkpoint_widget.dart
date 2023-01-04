@@ -3,27 +3,31 @@
 import 'package:flutter/material.dart';
 import 'package:treeunity/pulverturm_page.dart';
 
-class CheckpointWidget extends StatefulWidget {
+class CheckpointWidget extends StatelessWidget {
+  const CheckpointWidget(
+      {Key? key,
+      required this.title,
+      required this.id,
+      required this.position,
+      this.numberOfQuestions = 0,
+      this.questionsAnswered = 0})
+      : super(key: key);
   final String title;
   final int id;
   final double position;
-  CheckpointWidget(
-      {Key? key, required this.title, required this.id, required this.position})
-      : super(key: key);
 
-  @override
-  State<CheckpointWidget> createState() => _CheckpointWidgetState();
-}
+  final int numberOfQuestions;
 
-class _CheckpointWidgetState extends State<CheckpointWidget> {
+  final int questionsAnswered;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Row(children: [
-            Container(width: widget.position * 30),
+            Container(width: position * 30),
             circleWithId(),
-            Container(width: (1 - widget.position) * 30)
+            Container(width: (1 - position) * 30)
           ]),
           Container(
               margin: EdgeInsets.only(left: 10),
@@ -32,14 +36,16 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    title,
                     style: TextStyle(fontSize: 27, fontWeight: FontWeight.w200),
                     textAlign: TextAlign.start,
                   ),
-                  Text(
-                    "0 von 5 Fragen beantwortet",
-                    style: TextStyle(fontSize: 16),
-                  )
+                  numberOfQuestions != 0
+                      ? Text(
+                          "$questionsAnswered von $numberOfQuestions Fragen beantwortet",
+                          style: TextStyle(fontSize: 16),
+                        )
+                      : Container()
                 ],
               ))
         ]),
@@ -51,12 +57,16 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
 
   Container circleWithId() {
     return Container(
-      decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+      decoration: BoxDecoration(
+          color: numberOfQuestions == questionsAnswered
+              ? Colors.green
+              : Colors.grey,
+          shape: BoxShape.circle),
       height: 85,
       child: Center(
         child: Container(
           margin: EdgeInsets.all(22),
-          child: Text(widget.id.toString(),
+          child: Text(id.toString(),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,

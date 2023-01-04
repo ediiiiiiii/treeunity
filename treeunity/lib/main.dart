@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:treeunity/checkpoint_builder.dart';
 import 'package:treeunity/checkpoint_widget.dart';
 import 'package:treeunity/information_page.dart';
+import 'package:treeunity/main_page.dart';
+import 'package:treeunity/stationen_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -58,28 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final List<Widget> _pages = <Widget>[
-    ListView(children: [
-      Container(
-          child: Column(
-              children: [
-                Text("Stationen",
-                    style:
-                        TextStyle(fontSize: 32, fontWeight: FontWeight.w700)),
-                Text(
-                  "Tippe auf eine Station, um mehr über sie zu erfahren.",
-                  style: TextStyle(fontSize: 16),
-                )
-              ],
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly),
-          margin: EdgeInsets.fromLTRB(35, 20, 35, 20),
-          height: 100,
-          alignment: Alignment.centerLeft),
-      CheckpointWidget(title: "Pulverturm", id: 1, position: 0.1),
-      CheckpointWidget(title: "Stadthaus", id: 2, position: 0.4),
-      CheckpointWidget(title: "Spielplatz", id: 3, position: 0.8),
-      CheckpointWidget(title: "Eiche", id: 4, position: 0.6)
-    ], physics: BouncingScrollPhysics()),
+    MainPage(),
     InformationPage(),
     Text("3. Seite")
   ];
