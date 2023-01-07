@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:treeunity/quiz/quiz_data_structure.dart';
 
 class QuizWidget extends StatefulWidget {
-  QuizWidget({Key? key}) : super(key: key);
+  QuizWidget({super.key, required this.quiz});
+  Quiz quiz;
 
   @override
   State<QuizWidget> createState() => _QuizWidgetState();

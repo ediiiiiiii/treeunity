@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LineDrawer extends CustomPainter {
-  LineDrawer(this.keys,
+  LineDrawer(
       {this.xValue = const [0.1, 0.4, 0.8, 0.6, 0.3, 0.0, 0.2, 0.4, 0.1],
       this.height = 85,
       this.width = 60,
@@ -12,7 +12,6 @@ class LineDrawer extends CustomPainter {
   final double width;
   final double xOffset;
   final double xScaling;
-  final List<Key> keys;
 
   @override
   void paint(Canvas canvas, Size size) {

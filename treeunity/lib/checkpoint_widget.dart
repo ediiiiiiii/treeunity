@@ -1,24 +1,37 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:treeunity/quiz_page.dart';
+import 'package:treeunity/quiz/quiz_data_structure.dart';
+import 'package:treeunity/quiz/quiz_page.dart';
 
-class CheckpointWidget extends StatelessWidget {
+class CheckpointWidget extends StatefulWidget {
   const CheckpointWidget(
       {Key? key,
       required this.title,
       required this.id,
       required this.position,
-      this.numberOfQuestions = 0,
-      this.questionsAnswered = 0})
+      required this.quiz})
       : super(key: key);
   final String title;
   final int id;
   final double position;
 
-  final int numberOfQuestions;
+  final Quiz quiz;
 
-  final int questionsAnswered;
+  @override
+  State<CheckpointWidget> createState() => _CheckpointWidgetState();
+}
+
+class _CheckpointWidgetState extends State<CheckpointWidget> {
+  late int numberOfQuestions;
+  late int questionsAnswered;
+
+  @override
+  void initState() {
+    numberOfQuestions = widget.quiz.length();
+    questionsAnswered = widget.quiz.anweredQuestions;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +39,9 @@ class CheckpointWidget extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           SizedBox(width: 50),
           Row(children: [
-            Container(width: position * 30),
+            Container(width: widget.position * 30),
             circleWithId(),
-            Container(width: (1 - position) * 30)
+            Container(width: (1 - widget.position) * 30)
           ]),
           Container(
               margin: EdgeInsets.only(left: 10),
@@ -37,13 +50,13 @@ class CheckpointWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: TextStyle(fontSize: 27, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.start,
                   ),
                   numberOfQuestions != 0
                       ? Text(
-                          "$questionsAnswered von $numberOfQuestions Fragen beantwortet",
+                          "${questionsAnswered} von ${numberOfQuestions} Fragen beantwortet",
                           style: TextStyle(fontSize: 15),
                         )
                       : Container()
@@ -55,7 +68,8 @@ class CheckpointWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => QuizPage(
-                        title: title,
+                        title: widget.title,
+                        quiz: widget.quiz,
                       )));
         });
   }
@@ -72,7 +86,7 @@ class CheckpointWidget extends StatelessWidget {
       child: Center(
         child: Container(
           margin: EdgeInsets.all(22),
-          child: Text(id.toString(),
+          child: Text(widget.id.toString(),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,

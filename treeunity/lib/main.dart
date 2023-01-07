@@ -8,7 +8,7 @@ import 'package:treeunity/checkpoint_builder.dart';
 import 'package:treeunity/checkpoint_widget.dart';
 import 'package:treeunity/information_page.dart';
 import 'package:treeunity/main_page.dart';
-import 'package:treeunity/stationen_widget.dart';
+import 'package:treeunity/info_stationen_widget.dart';
 
 void main() {
   runApp(const MyApp());

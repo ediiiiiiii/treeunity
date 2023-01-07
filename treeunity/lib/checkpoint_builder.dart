@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:treeunity/checkpoint_widget.dart';
 import 'package:treeunity/line_drawer.dart';
+import 'package:treeunity/quiz/quiz_data_structure.dart';
 
 class ColumnBuilder extends StatelessWidget {
   const ColumnBuilder({
@@ -66,42 +67,63 @@ class CheckpointBuilder extends StatefulWidget {
 }
 
 class _CheckpointBuilderState extends State<CheckpointBuilder> {
-  late List<GlobalObjectKey> keys = [];
+  late Quiz quiz;
+
   @override
   void initState() {
-    for (int i = 0; i < widget.itemCount; i++) {
-      keys.add(GlobalObjectKey(i));
-    }
+    quiz = Quiz(questions: [
+      Question(
+        question: "Welche Baumart",
+        responds: ["Birke", "Eiche", "Buche"],
+        answer: 2,
+      ),
+      Question(
+        question: "Wo findet man das?",
+        responds: ["Spielplatz", "Stadthaus", "Graben"],
+        answer: 1,
+      ),
+      Question(
+        question: "Why?",
+        responds: ["Kein Plan", "Ahhh", "o"],
+        answer: 1,
+      )
+    ]);
     super.initState();
-    getPositions();
   }
+  // late List<GlobalObjectKey> keys = [];
+  // @override
+  // void initState() {
+  //   for (int i = 0; i < widget.itemCount; i++) {
+  //     keys.add(GlobalObjectKey(i));
+  //   }
+  //   super.initState();
+  //   getPositions();
+  // }
 
-  void getPositions() async {
-    await Future.delayed(Duration(milliseconds: 200));
-    for (int i = 0; i < keys.length; i++) {
-      var currentKey = keys[i];
-      final RenderBox? renderBox =
-          currentKey.currentContext?.findRenderObject() as RenderBox?;
-      Offset? position =
-          renderBox?.localToGlobal(Offset.zero); //this is global position
-      double? y = position?.dy; //this is y - I think it's what you want
-      print(y);
-    }
-  }
+  // void getPositions() async {
+  //   await Future.delayed(Duration(milliseconds: 200));
+  //   for (int i = 0; i < keys.length; i++) {
+  //     var currentKey = keys[i];
+  //     final RenderBox? renderBox =
+  //         currentKey.currentContext?.findRenderObject() as RenderBox?;
+  //     Offset? position =
+  //         renderBox?.localToGlobal(Offset.zero); //this is global position
+  //     double? y = position?.dy; //this is y - I think it's what you want
+  //     print(y);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-        painter: LineDrawer(keys, xValue: widget.xValue),
+        painter: LineDrawer(xValue: widget.xValue),
         child: ColumnBuilder(
             itemBuilder: (context, index) {
               return CheckpointWidget(
-                key: keys[index],
                 title: widget.titles[index],
                 id: index,
                 position: widget.xValue[index],
-                numberOfQuestions: widget.nQuestions[index],
-                questionsAnswered: widget.nAnsweredQuestions[index],
+                quiz: quiz,
               );
             },
             itemCount: widget.itemCount));
