@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:treeunity/pulverturm_page.dart';
+import 'package:treeunity/quiz_page.dart';
 
 class CheckpointWidget extends StatelessWidget {
   const CheckpointWidget(
@@ -24,7 +24,7 @@ class CheckpointWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          SizedBox(width: 60),
+          SizedBox(width: 50),
           Row(children: [
             Container(width: position * 30),
             circleWithId(),
@@ -51,8 +51,12 @@ class CheckpointWidget extends StatelessWidget {
               ))
         ]),
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const PulverturmPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => QuizPage(
+                        title: title,
+                      )));
         });
   }
 
