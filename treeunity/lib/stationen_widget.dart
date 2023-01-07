@@ -12,7 +12,6 @@ class StationenWidget extends StatelessWidget {
     return Column(children: [
       Container(
           margin: EdgeInsets.fromLTRB(35, 20, 35, 20),
-          height: 110,
           alignment: Alignment.centerLeft,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

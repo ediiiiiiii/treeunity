@@ -23,7 +23,8 @@ class CheckpointWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          SizedBox(width: 60),
           Row(children: [
             Container(width: position * 30),
             circleWithId(),
@@ -63,6 +64,7 @@ class CheckpointWidget extends StatelessWidget {
               : Colors.grey,
           shape: BoxShape.circle),
       height: 85,
+      width: 60,
       child: Center(
         child: Container(
           margin: EdgeInsets.all(22),
