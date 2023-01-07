@@ -15,7 +15,7 @@ class Question {
 class Quiz {
   Quiz({required this.questions, this.anweredQuestions = 0});
   List<Question> questions;
-  int anweredQuestions;
+  int anweredQuestions = 0;
 
   int length() {
     return questions.length;
