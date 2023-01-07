@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:treeunity/colored_circle.dart';
-import 'package:treeunity/quiz/quiz_data_structure.dart';
-import 'package:treeunity/quiz/quiz_widget.dart';
+import 'package:treeunity/lernpfad/data_structure.dart';
+import 'package:treeunity/lernpfad/question_widget.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key, required this.title, required this.quiz});
@@ -48,57 +48,68 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget appBar2 = Row(
+      // zweite AppBar
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Row(
+          // Symbol plus Text (Quiz)
+          children: [
+            ColoredCircle(
+                // Symbol für Frage
+                color: Colors.green,
+                child: Text(
+                  "Q",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                      height: 1.2),
+                )),
+            Container(
+              // Quiz Text
+              margin: EdgeInsets.only(left: 8),
+              child: Text(
+                "QUIZ",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+        IconButton(
+            // für Fragen
+            onPressed: () {},
+            icon: ColoredCircle(
+                color: Colors.orange,
+                child: Icon(
+                  Icons.question_mark,
+                  color: Colors.white,
+                )),
+            padding: EdgeInsets.zero,
+            splashRadius: 20)
+      ],
+    );
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.fromLTRB(30, 15, 20, 0),
+        margin: EdgeInsets.fromLTRB(30, 15, 30, 30),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    ColoredCircle(
-                        color: Colors.green,
-                        child: Text(
-                          "Q",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              height: 1.2),
-                        )),
-                    Container(
-                      margin: EdgeInsets.only(left: 8),
-                      child: Text(
-                        "QUIZ",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: ColoredCircle(
-                      color: Colors.orange,
-                      child: Icon(
-                        Icons.question_mark,
-                        color: Colors.white,
-                      )),
-                  padding: EdgeInsets.zero,
-                  splashRadius: 20,
-                )
-              ],
-            ),
-            SizedBox(height: 15),
-            QuizWidget(
-              quiz: widget.quiz,
+            appBar2,
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              child: QuestionWidget(
+                question: widget.quiz.questions[0],
+              ),
             )
           ],
         ),
       ),
       appBar: AppBar(
+        // mit Fortschrittsanzeige
         title: SizedBox(
           height: 45,
           child: RiveAnimation.asset(

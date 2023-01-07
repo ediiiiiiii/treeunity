@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:treeunity/checkpoint_widget.dart';
 import 'package:treeunity/line_drawer.dart';
-import 'package:treeunity/quiz/quiz_data_structure.dart';
+import 'package:treeunity/lernpfad/data_structure.dart';
 
 class ColumnBuilder extends StatelessWidget {
   const ColumnBuilder({

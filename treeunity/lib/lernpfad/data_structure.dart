@@ -25,3 +25,8 @@ class Quiz {
     return anweredQuestions / length();
   }
 }
+
+class Lernpfad {
+  List<Quiz> quizes;
+  Lernpfad({required this.quizes});
+}

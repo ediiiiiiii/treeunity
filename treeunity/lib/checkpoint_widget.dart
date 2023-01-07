@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:treeunity/quiz/quiz_data_structure.dart';
-import 'package:treeunity/quiz/quiz_page.dart';
+import 'package:treeunity/lernpfad/data_structure.dart';
+import 'package:treeunity/lernpfad/quiz_page.dart';
 
 class CheckpointWidget extends StatefulWidget {
   const CheckpointWidget(
