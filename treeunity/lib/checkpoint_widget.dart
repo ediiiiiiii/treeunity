@@ -29,7 +29,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
   @override
   void initState() {
     numberOfQuestions = widget.quiz.length();
-    questionsAnswered = widget.quiz.anweredQuestions;
+    questionsAnswered = widget.quiz.currentQuestionIndex();
     super.initState();
   }
 

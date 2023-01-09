@@ -71,10 +71,11 @@ class _CheckpointBuilderState extends State<CheckpointBuilder> {
   void initState() {
     quiz = Quiz(questions: [
       Question(
-        question: "Welche Baumart",
-        responds: ["Birke", "Eiche", "Buche"],
-        answer: 2,
-      ),
+          question: "Welche Baumart ist hier zu sehen?",
+          responds: ["Birke", "Eiche", "Buche"],
+          answer: 2,
+          child: Image.network(
+              "https://assets.koempf24.de/cms/Persistent/74acb5e8982b3b6fe5ad22672890af9a7fa49e8c/Ahorn_Baum-1100x734.jpg?auto=format&fit=max&h=800&q=75&w=1110&s=979b56308dc43e8a00d08e393ee3df56")),
       Question(
         question: "Wo findet man das?",
         responds: ["Spielplatz", "Stadthaus", "Graben"],
