@@ -138,7 +138,7 @@ class _SlideAnimation2State extends State<SlideAnimation2>
             child: Stack(children: [
               oldChild,
               Center(
-                child: Text("OLD WIDGET"),
+                child: Text(""),
               )
             ])),
         SlideTransition(
@@ -146,7 +146,7 @@ class _SlideAnimation2State extends State<SlideAnimation2>
             child: Stack(children: [
               widget.child,
               Center(
-                child: Text("NEW WIDGET"),
+                child: Text(""),
               )
             ]))
       ],

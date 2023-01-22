@@ -66,10 +66,33 @@ class InformationPage extends StatefulWidget {
 }
 
 class _InformationPageState extends State<InformationPage> {
+  List<Image> images = [
+    Image.asset("assets/images/Himmel.jpg",
+        fit: BoxFit.cover,
+        color: Colors.black.withAlpha(100),
+        colorBlendMode: BlendMode.srcOver),
+    Image.asset("assets/images/Veranstaltungen.jpg",
+        fit: BoxFit.cover,
+        color: Colors.black.withAlpha(100),
+        colorBlendMode: BlendMode.srcOver),
+    Image.asset("assets/images/Kultur.jpg",
+        fit: BoxFit.cover,
+        color: Colors.black.withAlpha(100),
+        colorBlendMode: BlendMode.srcOver),
+  ];
+
   @override
   void initState() {
     super.initState();
     wetter();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    for (Image i in images) {
+      precacheImage(i.image, context);
+    }
   }
 
   wetter() async {
@@ -88,8 +111,7 @@ class _InformationPageState extends State<InformationPage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InfoCard(
-            background: Image.network(
-                "https://cdn.pixabay.com/photo/2017/05/10/23/57/sky-2302316_960_720.jpg",
+            background: Image.asset("assets/images/Himmel.jpg",
                 fit: BoxFit.cover,
                 color: Colors.black.withAlpha(100),
                 colorBlendMode: BlendMode.srcOver),
@@ -101,8 +123,7 @@ class _InformationPageState extends State<InformationPage> {
                     color: Colors.white)),
           ),
           InfoCard(
-            background: Image.network(
-                "http://landschaften-in-deutschland.de/img/80/themen/80_B_128/Banner.jpg",
+            background: Image.asset("assets/images/Veranstaltungen.jpg",
                 fit: BoxFit.cover,
                 color: Colors.black.withAlpha(100),
                 colorBlendMode: BlendMode.srcOver),
@@ -114,8 +135,7 @@ class _InformationPageState extends State<InformationPage> {
                     color: Colors.white)),
           ),
           InfoCard(
-            background: Image.network(
-                "https://www.bernau.de/cache/img/8741_ab597bf85066b60a9819ef4f57434e7e.jpg?adaptive=50",
+            background: Image.asset("assets/images/Kultur.jpg",
                 fit: BoxFit.cover,
                 color: Colors.black.withAlpha(100),
                 colorBlendMode: BlendMode.srcOver),
