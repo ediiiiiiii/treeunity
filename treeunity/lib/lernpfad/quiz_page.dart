@@ -1,13 +1,110 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:treeunity/checkpoint_builder.dart';
 import 'package:treeunity/colored_circle.dart';
 import 'package:treeunity/lernpfad/data_structure.dart';
+import 'package:treeunity/lernpfad/slide_animation.dart';
+
+import 'animated_progress_bar.dart';
+import 'animated_response_button.dart';
+
+class AnimatedQuestionPage extends StatefulWidget {
+  const AnimatedQuestionPage(
+      {super.key, required this.question, required this.onNextQuestion});
+  final Function onNextQuestion;
+  final Question question;
+  @override
+  State<AnimatedQuestionPage> createState() => _AnimatedQuestionPageState();
+}
+
+class _AnimatedQuestionPageState extends State<AnimatedQuestionPage> {
+  late Widget questionPage;
+
+  @override
+  void initState() {
+    print("anim page init");
+    super.initState();
+    questionPage = QuestionPage(
+      onNextQuestion: () => widget.onNextQuestion(),
+      question: widget.question,
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant AnimatedQuestionPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("widget update");
+    questionPage = QuestionPage(
+      onNextQuestion: () => widget.onNextQuestion(),
+      question: widget.question,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideAnimation2(
+      child: questionPage,
+      onFinished: () => print("anim done"),
+    );
+  }
+}
+
+class QuizCompletedWidget extends StatefulWidget {
+  const QuizCompletedWidget({super.key, required this.onFinished});
+  final Function onFinished;
+
+  @override
+  State<QuizCompletedWidget> createState() => _QuizCompletedWidgetState();
+}
+
+class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
+  late RiveAnimationController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = SimpleAnimation("Check", autoplay: false);
+    _controller.isActive = false;
+
+    playDelayed(Duration(seconds: 1));
+  }
+
+  void playDelayed(Duration delay) async {
+    await Future.delayed(delay);
+    _controller.isActive = true;
+    await Future.delayed(Duration(seconds: 2));
+    widget.onFinished();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: Text(
+            "Lektion abgeschlossen!",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Container(
+          child: SizedBox(
+            width: 200,
+            height: 200,
+            child: RiveAnimation.asset(
+              "assets/checkmark.riv",
+              controllers: [_controller],
+            ),
+          ),
+          margin: EdgeInsets.only(bottom: 260),
+        )
+      ],
+    );
+  }
+}
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key, required this.title, required this.quiz});
@@ -20,22 +117,90 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  // Rive Controller
-
-  List<List<SMIInput<bool>>> buttonControl = [];
-
-  int selectedRespond = -1;
-  int respondCorrect = -1;
+  late Question question;
+  late List<Widget> questionWidgets = [];
+  late Function init;
 
   void nextQuestion() {
     widget.quiz.nextQuestion();
-    retry();
+    question = widget.quiz.currentQuestion();
+    setState(() {});
   }
 
-  void retry() {
+  @override
+  void initState() {
+    if (widget.quiz.completed()) {
+      question = widget.quiz.currentQuestion();
+      init = () {};
+    } else {
+      question = widget.quiz.currentQuestion();
+      init = () {
+        Navigator.pop(context);
+      };
+      for (Question question in widget.quiz.questions) {
+        questionWidgets.add(QuestionPage(
+          onNextQuestion: nextQuestion,
+          question: question,
+        ));
+      }
+    }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SlideAnimation2(
+        child: widget.quiz.completed()
+            ? QuizCompletedWidget(
+                onFinished: init,
+              )
+            : questionWidgets[widget.quiz.currentQuestionIndex()],
+        onFinished: () {},
+      ),
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: AnimatedProgressBar(
+            value: widget.quiz.progress() * 100.0,
+          ),
+        ),
+        titleSpacing: 0,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black54,
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          iconSize: 40,
+        ),
+        centerTitle: false,
+      ),
+    );
+  }
+}
+
+class QuestionPage extends StatefulWidget {
+  const QuestionPage(
+      {super.key, required this.onNextQuestion, required this.question});
+  final Function onNextQuestion;
+  final Question question;
+
+  @override
+  State<QuestionPage> createState() => _QuestionPageState();
+}
+
+class _QuestionPageState extends State<QuestionPage> {
+  int selectedResponse = -1;
+  int responseCorrect = -1;
+
+  void _retry() {
     setState(() {
-      selectedRespond = -1;
-      respondCorrect = -1;
+      selectedResponse = -1;
+      responseCorrect = -1;
     });
   }
 
@@ -87,15 +252,14 @@ class _QuizPageState extends State<QuizPage> {
     Widget checkButton = Container(
         margin: EdgeInsets.only(top: 40),
         child: ElevatedButton(
-          onPressed: selectedRespond != -1
+          onPressed: selectedResponse != -1
               ? () {
-                  if (respondCorrect == -1) {
+                  if (responseCorrect == -1) {
                     setState(() {
-                      if (widget.quiz.currentQuestion().answer ==
-                          selectedRespond) {
-                        respondCorrect = 1;
+                      if (widget.question.answer == selectedResponse) {
+                        responseCorrect = 1;
                       } else {
-                        respondCorrect = 0;
+                        responseCorrect = 0;
                       }
                     });
                   }
@@ -113,9 +277,9 @@ class _QuizPageState extends State<QuizPage> {
     Widget retryButton = Container(
         margin: EdgeInsets.only(top: 40),
         child: ElevatedButton(
-          onPressed: selectedRespond != -1
+          onPressed: selectedResponse != -1
               ? () {
-                  retry();
+                  _retry();
                 }
               : null,
           style:
@@ -132,9 +296,9 @@ class _QuizPageState extends State<QuizPage> {
     Widget nextButton = Container(
         margin: EdgeInsets.only(top: 40),
         child: ElevatedButton(
-          onPressed: selectedRespond != -1
+          onPressed: selectedResponse != -1
               ? () {
-                  nextQuestion();
+                  widget.onNextQuestion();
                 }
               : null,
           style:
@@ -151,208 +315,63 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ));
-    return Scaffold(
-      body: Container(
-        margin: EdgeInsets.fromLTRB(30, 15, 30, 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            appBar2,
-            SizedBox(height: 10),
-            Text(widget.quiz.currentQuestion().question,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-            Spacer(),
-            widget.quiz.currentQuestion().child ?? Container(),
-            Spacer(),
-            ColumnBuilder(
-              itemBuilder: (context, index) {
-                return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 0),
-                    child: AnimatedRespondButton(
+    return Container(
+      margin: EdgeInsets.fromLTRB(30, 10, 30, 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          appBar2,
+          SizedBox(height: 10),
+          Text(widget.question.question,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+          Spacer(),
+          widget.question.child ?? Container(),
+          Spacer(),
+          ColumnBuilder(
+            itemBuilder: (context, index) {
+              return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  child: AnimatedRespondButton(
                       onTap: (bool selected, bool correct, bool incorrect) {
                         if (correct == false &&
                             incorrect == false &&
-                            respondCorrect == -1) {
-                          setState(() {
-                            if (selectedRespond != index) {
-                              selectedRespond = index;
-                            } else {
-                              selectedRespond = -1;
-                            }
-                          });
+                            responseCorrect == -1) {
+                          if (selectedResponse != index) {
+                            selectedResponse = index;
+                          } else {
+                            selectedResponse = -1;
+                          }
+                          setState(() {});
                         }
                       },
                       initialValues: [
-                        selectedRespond == index,
-                        (respondCorrect != -1 ? respondCorrect == 1 : false) &&
-                            selectedRespond == index,
-                        respondCorrect != -1 ? respondCorrect == 0 : false
+                        selectedResponse == index,
+                        (responseCorrect != -1
+                                ? responseCorrect == 1
+                                : false) &&
+                            selectedResponse == index,
+                        responseCorrect != -1 ? responseCorrect == 0 : false
                       ],
                       child: Center(
-                          child: Text(
-                        widget.quiz.currentQuestion().responds[index],
-                        style: TextStyle(
-                            fontSize: 22,
-                            color:
-                                respondCorrect == 1 && selectedRespond == index
-                                    ? Colors.white
-                                    : Colors.black,
-                            fontWeight:
-                                respondCorrect == 1 && selectedRespond == index
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
-                      )),
-                    ));
-              },
-              itemCount: widget.quiz.currentQuestion().responds.length,
-            ),
-            respondCorrect == 0
-                ? retryButton
-                : (respondCorrect == 1 ? nextButton : checkButton)
-          ],
-        ),
+                          child: Text(widget.question.responds[index],
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: responseCorrect == 1 &&
+                                          selectedResponse == index
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: responseCorrect == 1 &&
+                                          selectedResponse == index
+                                      ? FontWeight.bold
+                                      : FontWeight.normal)))));
+            },
+            itemCount: widget.question.responds.length,
+          ),
+          responseCorrect == 0
+              ? retryButton
+              : (responseCorrect == 1 ? nextButton : checkButton)
+        ],
       ),
-      appBar: AppBar(
-        // mit Fortschrittsanzeige
-        title: AnimatedProgressBar(),
-        titleSpacing: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black54,
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          iconSize: 40,
-        ),
-        centerTitle: false,
-      ),
-    );
-  }
-}
-
-class AnimatedProgressBar extends StatefulWidget {
-  AnimatedProgressBar({super.key});
-
-  @override
-  State<AnimatedProgressBar> createState() => _AnimatedProgressBarState();
-}
-
-class _AnimatedProgressBarState extends State<AnimatedProgressBar>
-    with SingleTickerProviderStateMixin {
-  Artboard? _riveArtboard;
-  SMIInput<double>? progressControl;
-
-  late AnimationController controller;
-  late Animation<double> animation;
-
-  @override
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(duration: const Duration(seconds: 20), vsync: this);
-    animation = Tween<double>(begin: 0, end: 100).animate(controller)
-      ..addListener(() {
-        setState(() {
-          progressControl?.value = animation.value;
-        });
-      });
-    controller.forward();
-    rootBundle.load('assets/loading_bar.riv').then((data) async {
-      final file = RiveFile.import(data);
-      final artboard = file.artboardByName("Loading Bar")!;
-
-      final riveController =
-          StateMachineController.fromArtboard(artboard, 'State Machine 1');
-      artboard.addController(riveController!);
-
-      progressControl =
-          riveController.findInput<double>("Progress") as SMINumber;
-
-      print("init progressbar done");
-      setState(() => _riveArtboard = artboard);
-      await Future.delayed(Duration(seconds: 2));
-    });
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _riveArtboard == null
-        ? SizedBox()
-        : SizedBox(
-            height: 45,
-            child: Rive(
-              artboard: _riveArtboard!.instance(),
-              alignment: Alignment.centerLeft,
-            ),
-          );
-  }
-}
-
-class AnimatedRespondButton extends StatefulWidget {
-  const AnimatedRespondButton(
-      {super.key,
-      this.child,
-      required this.onTap,
-      required this.initialValues});
-  final Widget? child;
-  final Function onTap;
-  final List<bool> initialValues;
-
-  @override
-  State<AnimatedRespondButton> createState() => _AnimatedRespondButtonState();
-}
-
-class _AnimatedRespondButtonState extends State<AnimatedRespondButton> {
-  late SMIInput<bool> selected;
-  late SMIInput<bool> correct;
-  late SMIInput<bool> incorrect;
-
-  void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
-    artboard.addController(controller!);
-
-    selected = controller.findInput<bool>("selected") as SMIBool;
-    correct = controller.findInput<bool>("correct") as SMIBool;
-    incorrect = controller.findInput<bool>("incorrect") as SMIBool;
-    selected.value = widget.initialValues[0];
-    correct.value = widget.initialValues[1];
-    incorrect.value = widget.initialValues[2];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: SizedBox(
-        height: 60,
-        child: Stack(
-          children: [
-            RiveAnimation.asset(
-              "assets/loading_bar.riv",
-              artboard: "Button",
-              onInit: _onRiveInit,
-              fit: BoxFit.fill,
-              stateMachines: ["State Machine 1"],
-            ),
-            widget.child ?? Container()
-          ],
-        ),
-      ),
-      onTapDown: (TapDownDetails t) {
-        widget.onTap(
-          selected.value,
-          correct.value,
-          incorrect.value,
-        );
-      },
     );
   }
 }
