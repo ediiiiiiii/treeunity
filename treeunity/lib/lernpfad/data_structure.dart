@@ -14,9 +14,15 @@ class Question {
 
 class Quiz {
   Quiz({required this.questions});
+
+  List<Function> _listeners = [];
   List<Question> questions;
   int _answeredQuestions = 0;
   bool _completed = false;
+
+  void addListerner(Function f) {
+    _listeners.add(f);
+  }
 
   int length() {
     int length = questions.length;
@@ -40,6 +46,9 @@ class Quiz {
   }
 
   int nextQuestion() {
+    for (Function f in _listeners) {
+      f();
+    }
     if (_answeredQuestions != (length() - 1)) {
       _answeredQuestions += 1;
       _completed = false;
@@ -61,6 +70,11 @@ class Checkpoint {
   String title;
   double position;
   int id;
+
+  void addListener(Function f) {
+    quiz.addListerner(f);
+  }
+
   Checkpoint(
       {required this.quiz,
       required this.title,
@@ -71,6 +85,12 @@ class Checkpoint {
 class Lernpfad {
   List<Checkpoint> checkpoints;
   Lernpfad({required this.checkpoints});
+
+  void addListener(Function f) {
+    for (Checkpoint c in checkpoints) {
+      c.addListener(f);
+    }
+  }
 
   List<double> getPositions() {
     List<double> offsets = [];

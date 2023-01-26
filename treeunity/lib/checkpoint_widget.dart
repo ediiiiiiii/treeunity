@@ -58,7 +58,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                   ),
                   numberOfQuestions != 0
                       ? Text(
-                          "${questionsAnswered} von ${numberOfQuestions} Fragen beantwortet",
+                          "${widget.checkpoint.quiz.completed() ? numberOfQuestions : questionsAnswered} von ${numberOfQuestions} Fragen beantwortet",
                           style: TextStyle(fontSize: 15),
                         )
                       : Container()
