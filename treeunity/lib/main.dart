@@ -9,6 +9,7 @@ import 'package:treeunity/checkpoint_widget.dart';
 import 'package:treeunity/information_page.dart';
 import 'package:treeunity/main_page.dart';
 import 'package:treeunity/info_stationen_widget.dart';
+import 'package:treeunity/page_select.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Treeunity',
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -42,14 +44,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
     });
   }
 
@@ -81,21 +87,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        body: TabBarView(children: [MainPage(), InformationPage(), Text("ho")]),
-        bottomNavigationBar: Container(
-          child: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.emoji_nature), child: Text("Lernpfad")),
-                Tab(
-                    icon: Icon(Icons.info_outline_rounded),
-                    child: Text("Information")),
-                Tab(icon: Icon(Icons.settings), child: Text("Einstellungen"))
-              ],
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.white70,
-              indicatorColor: Colors.green[100]),
-          color: Colors.green,
+        body: TabBarView(
+            children: [MainPage(), InformationPage()],
+            controller: _tabController),
+        bottomNavigationBar: PageSelector(
+          value: _tabController.index,
+          tabController: _tabController,
         ),
+        extendBody: true,
+        // bottomNavigationBar: Container(
+        //   child: TabBar(
+        //       tabs: [
+        //         Tab(icon: Icon(Icons.emoji_nature), child: Text("Lernpfad")),
+        //         Tab(
+        //             icon: Icon(Icons.info_outline_rounded),
+        //             child: Text("Information")),
+        //         Tab(icon: Icon(Icons.settings), child: Text("Einstellungen"))
+        //       ],
+        //       labelColor: Colors.white,
+        //       unselectedLabelColor: Colors.white70,
+        //       indicatorColor: Colors.green[100]),
+        //   color: Colors.green,
+        // ),
       ),
     );
   }

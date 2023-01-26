@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class Question {
   Question(
@@ -57,7 +56,27 @@ class Quiz {
   }
 }
 
+class Checkpoint {
+  Quiz quiz;
+  String title;
+  double position;
+  int id;
+  Checkpoint(
+      {required this.quiz,
+      required this.title,
+      required this.position,
+      required this.id});
+}
+
 class Lernpfad {
-  List<Quiz> quizes;
-  Lernpfad({required this.quizes});
+  List<Checkpoint> checkpoints;
+  Lernpfad({required this.checkpoints});
+
+  List<double> getPositions() {
+    List<double> offsets = [];
+    for (var i = 0; i < checkpoints.length; i++) {
+      offsets.add(checkpoints[i].position);
+    }
+    return offsets;
+  }
 }

@@ -31,28 +31,39 @@ class InfoCard extends StatelessWidget {
       {super.key,
       required this.child,
       required this.background,
-      required this.height});
+      required this.height,
+      required this.darken});
 
   final Widget child;
   final Widget background;
   final double height;
+  final int darken;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30),
-      child: SizedBox(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            SizedBox(
-              child: background,
-              height: height,
-              width: 400,
+    return Container(
+      margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  background,
+                  Container(
+                    color: Colors.black.withAlpha(darken),
+                  )
+                ],
+              ),
             ),
-            Center(child: child)
-          ],
-        ),
+          ),
+          Center(child: child)
+        ],
       ),
     );
   }
@@ -66,35 +77,6 @@ class InformationPage extends StatefulWidget {
 }
 
 class _InformationPageState extends State<InformationPage> {
-  List<Image> images = [
-    Image.asset("assets/images/Himmel.jpg",
-        fit: BoxFit.cover,
-        color: Colors.black.withAlpha(100),
-        colorBlendMode: BlendMode.srcOver),
-    Image.asset("assets/images/Veranstaltungen.jpg",
-        fit: BoxFit.cover,
-        color: Colors.black.withAlpha(100),
-        colorBlendMode: BlendMode.srcOver),
-    Image.asset("assets/images/Kultur.jpg",
-        fit: BoxFit.cover,
-        color: Colors.black.withAlpha(100),
-        colorBlendMode: BlendMode.srcOver),
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    wetter();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    for (Image i in images) {
-      precacheImage(i.image, context);
-    }
-  }
-
   wetter() async {
     WeatherFactory wf = WeatherFactory("4b3ac13c71f264b8d8d5caf0870cba94",
         language: Language.GERMAN);
@@ -105,49 +87,49 @@ class _InformationPageState extends State<InformationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          InfoCard(
-            background: Image.asset("assets/images/Himmel.jpg",
-                fit: BoxFit.cover,
-                color: Colors.black.withAlpha(100),
-                colorBlendMode: BlendMode.srcOver),
-            height: 175,
-            child: Text("Wetter",
-                style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+    return ListView(
+      children: [
+        SizedBox(height: 30),
+        InfoCard(
+          background: Image.asset(
+            "assets/images/Himmel.jpg",
+            fit: BoxFit.cover,
           ),
-          InfoCard(
-            background: Image.asset("assets/images/Veranstaltungen.jpg",
-                fit: BoxFit.cover,
-                color: Colors.black.withAlpha(100),
-                colorBlendMode: BlendMode.srcOver),
-            height: 175,
-            child: Text("Veranstaltungen",
-                style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+          height: 175,
+          darken: 100,
+          child: Text("Wetter",
+              style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+        ),
+        InfoCard(
+          background: Image.asset(
+            "assets/images/Veranstaltungen.jpg",
+            fit: BoxFit.cover,
           ),
-          InfoCard(
-            background: Image.asset("assets/images/Kultur.jpg",
-                fit: BoxFit.cover,
-                color: Colors.black.withAlpha(100),
-                colorBlendMode: BlendMode.srcOver),
-            height: 175,
-            child: Text("Kunst",
-                style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+          height: 250,
+          darken: 100,
+          child: Text("Veranstaltungen",
+              style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+        ),
+        InfoCard(
+          background: Image.asset(
+            "assets/images/Kultur.jpg",
+            fit: BoxFit.cover,
           ),
-        ],
-      ),
+          height: 175,
+          darken: 100,
+          child: Text("Kunst",
+              style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+        ),
+      ],
     );
   }
 }

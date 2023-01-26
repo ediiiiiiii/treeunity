@@ -81,8 +81,8 @@ class _SlideAnimation2State extends State<SlideAnimation2>
   late Animation<Offset> _animationOld;
   late Animation<Offset> _animationNew;
 
+  Widget? oldChild;
   late Widget body;
-  late Widget oldChild;
 
   @override
   void initState() {
@@ -100,13 +100,11 @@ class _SlideAnimation2State extends State<SlideAnimation2>
     _animationOld.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.onFinished();
-        body = widget.child;
-        oldChild = Container();
+        _showBody();
         setState(() {});
       }
     });
-    oldChild = widget.child;
-    body = widget.child;
+    _showBody();
   }
 
   @override
@@ -127,29 +125,35 @@ class _SlideAnimation2State extends State<SlideAnimation2>
         .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
     _controller.forward();
     oldChild = oldWidget.child;
+    _showAnimation();
+  }
+
+  _showBody() {
+    body = widget.child;
+    setState(() {});
+  }
+
+  _showAnimation() {
+    if (oldChild != null) {
+      body = Stack(
+        children: [
+          SlideTransition(
+              position: _animationOld,
+              child: Stack(
+                  children: [oldChild!, const Center(child: Text("OLD"))])),
+          SlideTransition(
+              position: _animationNew,
+              child: Stack(
+                  children: [widget.child, const Center(child: Text("NEW"))]))
+        ],
+      );
+    } else {
+      _showBody();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SlideTransition(
-            position: _animationOld,
-            child: Stack(children: [
-              oldChild,
-              Center(
-                child: Text(""),
-              )
-            ])),
-        SlideTransition(
-            position: _animationNew,
-            child: Stack(children: [
-              widget.child,
-              Center(
-                child: Text(""),
-              )
-            ]))
-      ],
-    );
+    return body;
   }
 }

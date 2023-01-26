@@ -36,58 +36,35 @@ class ColumnBuilder extends StatelessWidget {
 }
 
 class CheckpointBuilder extends StatefulWidget {
-  final int itemCount;
-  final List<String> titles;
-  final List<double> xValue;
-  final List<int> nQuestions;
-  final List<int> nAnsweredQuestions;
+  final Lernpfad lernpfad;
+  // final int itemCount;
+  // final List<String> titles;
+  // final List<double> xValue;
+  // final List<int> nQuestions;
+  // final List<int> nAnsweredQuestions;
 
-  const CheckpointBuilder({
-    super.key,
-    this.itemCount = 8,
-    this.titles = const [
-      "Pulverturm",
-      "Stadthaus",
-      "Spielplatz",
-      "Eiche",
-      "Ecke",
-      "Schild",
-      "Ahorn",
-      "Wallanlage"
-    ],
-    this.xValue = const [0.1, 0.4, 0.8, 0.6, 0.3, 0.0, 0.2, 0.4],
-    this.nQuestions = const [4, 3, 5, 6, 2, 7, 8, 4],
-    this.nAnsweredQuestions = const [4, 3, 3, 0, 0, 0, 0, 0],
-  });
+  const CheckpointBuilder({super.key, required this.lernpfad
+      // this.itemCount = 8,
+      // this.titles = const [
+      //   "Pulverturm",
+      //   "Stadthaus",
+      //   "Spielplatz",
+      //   "Eiche",
+      //   "Ecke",
+      //   "Schild",
+      //   "Ahorn",
+      //   "Wallanlage"
+      // ],
+      // this.xValue = const [0.1, 0.4, 0.8, 0.6, 0.3, 0.0, 0.2, 0.4],
+      // this.nQuestions = const [4, 3, 5, 6, 2, 7, 8, 4],
+      // this.nAnsweredQuestions = const [4, 3, 3, 0, 0, 0, 0, 0],
+      });
 
   @override
   State<CheckpointBuilder> createState() => _CheckpointBuilderState();
 }
 
 class _CheckpointBuilderState extends State<CheckpointBuilder> {
-  late Quiz quiz;
-
-  @override
-  void initState() {
-    quiz = Quiz(questions: [
-      Question(
-          question: "Welche Baumart ist hier zu sehen?",
-          responds: ["Birke", "Eiche", "Buche"],
-          answer: 2,
-          child: Image.asset("assets/images/Baum.jpg")),
-      Question(
-        question: "Wo findet man das?",
-        responds: ["Spielplatz", "Stadthaus", "Graben"],
-        answer: 1,
-      ),
-      Question(
-        question: "Why?",
-        responds: ["Kein Plan", "Ahhh", "o"],
-        answer: 1,
-      )
-    ]);
-    super.initState();
-  }
   // late List<GlobalObjectKey> keys = [];
   // @override
   // void initState() {
@@ -114,17 +91,14 @@ class _CheckpointBuilderState extends State<CheckpointBuilder> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-        painter: LineDrawer(xValue: widget.xValue),
+        painter: LineDrawer(xValue: widget.lernpfad.getPositions()),
         child: ColumnBuilder(
             itemBuilder: (context, index) {
               return CheckpointWidget(
-                title: widget.titles[index],
-                id: index,
-                position: widget.xValue[index],
-                quiz: quiz,
+                checkpoint: widget.lernpfad.checkpoints[index],
               );
             },
-            itemCount: widget.itemCount));
+            itemCount: widget.lernpfad.checkpoints.length));
     // return Column(
     //   children: [
     //     CheckpointWidget(

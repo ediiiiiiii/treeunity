@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -7,6 +8,7 @@ import 'package:treeunity/checkpoint_builder.dart';
 import 'package:treeunity/colored_circle.dart';
 import 'package:treeunity/lernpfad/data_structure.dart';
 import 'package:treeunity/lernpfad/slide_animation.dart';
+import 'package:flutter/animation.dart';
 
 import 'animated_progress_bar.dart';
 import 'animated_response_button.dart';
@@ -68,7 +70,7 @@ class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
     _controller = SimpleAnimation("Check", autoplay: false);
     _controller.isActive = false;
 
-    playDelayed(Duration(seconds: 1));
+    playDelayed(Duration(milliseconds: 400));
   }
 
   void playDelayed(Duration delay) async {
@@ -76,6 +78,12 @@ class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
     _controller.isActive = true;
     await Future.delayed(Duration(seconds: 2));
     widget.onFinished();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -91,6 +99,7 @@ class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
           ),
         ),
         Container(
+          margin: EdgeInsets.only(bottom: 260),
           child: SizedBox(
             width: 200,
             height: 200,
@@ -99,7 +108,6 @@ class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
               controllers: [_controller],
             ),
           ),
-          margin: EdgeInsets.only(bottom: 260),
         )
       ],
     );
@@ -129,18 +137,22 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   void initState() {
+    print("init complete");
     if (widget.quiz.completed()) {
       question = widget.quiz.currentQuestion();
       init = () {};
     } else {
       question = widget.quiz.currentQuestion();
       init = () {
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context);
+        }
       };
       for (Question question in widget.quiz.questions) {
         questionWidgets.add(QuestionPage(
           onNextQuestion: nextQuestion,
           question: question,
+          key: UniqueKey(),
         ));
       }
     }
@@ -151,13 +163,27 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SlideAnimation2(
+      body: PageTransitionSwitcher(
+        duration: Duration(milliseconds: 500),
+        transitionBuilder: (Widget child, Animation<double> animation,
+            Animation<double> animationTwo) {
+          return SlideTransition(
+            position: Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                .animate(
+                    CurvedAnimation(parent: animation, curve: Curves.ease)),
+            child: SlideTransition(
+              position: Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0))
+                  .animate(CurvedAnimation(
+                      parent: animationTwo, curve: Curves.ease)),
+              child: child,
+            ),
+          );
+        },
         child: widget.quiz.completed()
             ? QuizCompletedWidget(
                 onFinished: init,
               )
             : questionWidgets[widget.quiz.currentQuestionIndex()],
-        onFinished: () {},
       ),
       appBar: AppBar(
         title: Padding(
@@ -202,6 +228,13 @@ class _QuestionPageState extends State<QuestionPage> {
       selectedResponse = -1;
       responseCorrect = -1;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.question.question);
+    print(selectedResponse);
   }
 
   @override

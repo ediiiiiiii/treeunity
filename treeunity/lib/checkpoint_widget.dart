@@ -5,18 +5,20 @@ import 'package:treeunity/lernpfad/data_structure.dart';
 import 'package:treeunity/lernpfad/quiz_page.dart';
 
 class CheckpointWidget extends StatefulWidget {
-  const CheckpointWidget(
-      {Key? key,
-      required this.title,
-      required this.id,
-      required this.position,
-      required this.quiz})
-      : super(key: key);
-  final String title;
-  final int id;
-  final double position;
+  // const CheckpointWidget(
+  //     {Key? key,
+  //     required this.title,
+  //     required this.id,
+  //     required this.position,
+  //     required this.quiz})
+  //     : super(key: key);
+  // final String title;
+  // final int id;
+  // final double position;
 
-  final Quiz quiz;
+  // final Quiz quiz;
+  final Checkpoint checkpoint;
+  const CheckpointWidget({Key? key, required this.checkpoint});
 
   @override
   State<CheckpointWidget> createState() => _CheckpointWidgetState();
@@ -28,8 +30,8 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
 
   @override
   void initState() {
-    numberOfQuestions = widget.quiz.length();
-    questionsAnswered = widget.quiz.currentQuestionIndex();
+    numberOfQuestions = widget.checkpoint.quiz.length();
+    questionsAnswered = widget.checkpoint.quiz.currentQuestionIndex();
     super.initState();
   }
 
@@ -39,9 +41,9 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           SizedBox(width: 50),
           Row(children: [
-            Container(width: widget.position * 30),
+            Container(width: widget.checkpoint.position * 30),
             circleWithId(),
-            Container(width: (1 - widget.position) * 30)
+            Container(width: (1 - widget.checkpoint.position) * 30)
           ]),
           Container(
               margin: EdgeInsets.only(left: 10),
@@ -50,7 +52,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    widget.checkpoint.title,
                     style: TextStyle(fontSize: 27, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.start,
                   ),
@@ -68,8 +70,8 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
               context,
               MaterialPageRoute(
                   builder: (context) => QuizPage(
-                        title: widget.title,
-                        quiz: widget.quiz,
+                        title: widget.checkpoint.title,
+                        quiz: widget.checkpoint.quiz,
                       )));
         });
   }
@@ -86,7 +88,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
       child: Center(
         child: Container(
           margin: EdgeInsets.all(22),
-          child: Text(widget.id.toString(),
+          child: Text(widget.checkpoint.id.toString(),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:treeunity/checkpoint_builder.dart';
+import 'package:treeunity/data.dart';
 import 'package:treeunity/line_drawer.dart';
 
 class StationenWidget extends StatelessWidget {
@@ -25,7 +26,9 @@ class StationenWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 16),
                 )
               ])),
-      CheckpointBuilder()
+      CheckpointBuilder(
+        lernpfad: lernpfad,
+      )
     ]);
   }
 }
