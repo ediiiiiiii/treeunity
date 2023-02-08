@@ -57,8 +57,8 @@ class _CheckpointBuilderState extends State<CheckpointBuilder> {
         child: ColumnBuilder(
             itemBuilder: (context, index) {
               return CheckpointWidget(
-                checkpoint: widget.lernpfad.checkpoints[index],
-              );
+                  checkpoint: widget.lernpfad.checkpoints[index],
+                  onClosed: () => setState(() {}));
             },
             itemCount: widget.lernpfad.checkpoints.length));
   }

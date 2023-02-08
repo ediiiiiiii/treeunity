@@ -18,7 +18,9 @@ class CheckpointWidget extends StatefulWidget {
 
   // final Quiz quiz;
   final Checkpoint checkpoint;
-  const CheckpointWidget({super.key, required this.checkpoint});
+  final Function onClosed;
+  const CheckpointWidget(
+      {super.key, required this.checkpoint, required this.onClosed});
 
   @override
   State<CheckpointWidget> createState() => _CheckpointWidgetState();
@@ -34,7 +36,6 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
     questionsAnswered = widget.checkpoint.quiz.currentQuestionIndex();
 
     super.initState();
-    widget.checkpoint.addListener(() => setState(() {}));
   }
 
   @override
@@ -82,6 +83,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                         title: widget.checkpoint.title,
                         quiz: widget.checkpoint.quiz,
                       )));
+          widget.onClosed();
         });
   }
 

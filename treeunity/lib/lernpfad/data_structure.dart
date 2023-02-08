@@ -15,7 +15,7 @@ class Question {
 class Quiz {
   Quiz({required this.questions});
 
-  List<Function> _listeners = [];
+  final List<Function> _listeners = [];
   List<Question> questions;
   int _answeredQuestions = 0;
   bool _completed = false;
