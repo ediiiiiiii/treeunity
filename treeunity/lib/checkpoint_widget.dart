@@ -18,7 +18,7 @@ class CheckpointWidget extends StatefulWidget {
 
   // final Quiz quiz;
   final Checkpoint checkpoint;
-  const CheckpointWidget({Key? key, required this.checkpoint});
+  const CheckpointWidget({super.key, required this.checkpoint});
 
   @override
   State<CheckpointWidget> createState() => _CheckpointWidgetState();
@@ -32,7 +32,16 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
   void initState() {
     numberOfQuestions = widget.checkpoint.quiz.length();
     questionsAnswered = widget.checkpoint.quiz.currentQuestionIndex();
+
     super.initState();
+    widget.checkpoint.addListener(() => setState(() {}));
+  }
+
+  @override
+  void didUpdateWidget(covariant CheckpointWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    numberOfQuestions = widget.checkpoint.quiz.length();
+    questionsAnswered = widget.checkpoint.quiz.currentQuestionIndex();
   }
 
   @override
@@ -65,8 +74,8 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
                 ],
               ))
         ]),
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => QuizPage(

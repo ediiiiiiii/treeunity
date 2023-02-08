@@ -52,10 +52,8 @@ class Quiz {
     if (_answeredQuestions != (length() - 1)) {
       _answeredQuestions += 1;
       _completed = false;
-      print("new question");
     } else {
       _completed = true;
-      print("questions done");
     }
     return _answeredQuestions;
   }

@@ -47,21 +47,7 @@ class CheckpointBuilder extends StatefulWidget {
 class _CheckpointBuilderState extends State<CheckpointBuilder> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    widget.lernpfad.addListener(() {
-      print("nextQ");
-      if (mounted) {
-        setState(() {});
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant CheckpointBuilder oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-    print("upi");
   }
 
   @override

@@ -32,7 +32,6 @@ class _SlideAnimationState extends State<SlideAnimation>
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.onFinished(widget.newChild);
-        print("anim done");
       }
     });
     _controller.forward();

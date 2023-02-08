@@ -27,7 +27,6 @@ class _AnimatedQuestionPageState extends State<AnimatedQuestionPage> {
 
   @override
   void initState() {
-    print("anim page init");
     super.initState();
     questionPage = QuestionPage(
       onNextQuestion: () => widget.onNextQuestion(),
@@ -38,7 +37,6 @@ class _AnimatedQuestionPageState extends State<AnimatedQuestionPage> {
   @override
   void didUpdateWidget(covariant AnimatedQuestionPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print("widget update");
     questionPage = QuestionPage(
       onNextQuestion: () => widget.onNextQuestion(),
       question: widget.question,
@@ -115,10 +113,12 @@ class _QuizCompletedWidgetState extends State<QuizCompletedWidget> {
 }
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key, required this.title, required this.quiz});
+  const QuizPage(
+      {super.key, required this.title, required this.quiz, this.onFinished});
 
   final String title;
   final Quiz quiz;
+  final Function? onFinished;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -137,7 +137,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   void initState() {
-    print("init complete");
     if (widget.quiz.completed()) {
       question = widget.quiz.currentQuestion();
       init = () {};
@@ -146,6 +145,9 @@ class _QuizPageState extends State<QuizPage> {
       init = () {
         if (mounted) {
           Navigator.pop(context);
+        }
+        if (widget.onFinished != null) {
+          widget.onFinished!();
         }
       };
       for (Question question in widget.quiz.questions) {
@@ -200,6 +202,9 @@ class _QuizPageState extends State<QuizPage> {
           icon: Icon(Icons.close),
           onPressed: () {
             Navigator.pop(context);
+            if (widget.onFinished != null) {
+              widget.onFinished!();
+            }
           },
           iconSize: 40,
         ),
@@ -228,13 +233,6 @@ class _QuestionPageState extends State<QuestionPage> {
       selectedResponse = -1;
       responseCorrect = -1;
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print(widget.question.question);
-    print(selectedResponse);
   }
 
   @override
