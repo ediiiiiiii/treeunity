@@ -227,12 +227,23 @@ class QuestionPage extends StatefulWidget {
 class _QuestionPageState extends State<QuestionPage> {
   int selectedResponse = -1;
   int responseCorrect = -1;
+  int wrongResponse = -1;
 
   void _retry() {
     setState(() {
       selectedResponse = -1;
       responseCorrect = -1;
     });
+  }
+
+  void _failedAnim() async {
+    //selectedResponse = -1;
+    wrongResponse = selectedResponse;
+    responseCorrect = -1;
+    await Future.delayed(Duration(milliseconds: 800));
+    wrongResponse = -1;
+
+    setState(() {});
   }
 
   @override
@@ -291,6 +302,8 @@ class _QuestionPageState extends State<QuestionPage> {
                         responseCorrect = 1;
                       } else {
                         responseCorrect = 0;
+
+                        _failedAnim();
                       }
                     });
                   }
@@ -305,25 +318,25 @@ class _QuestionPageState extends State<QuestionPage> {
             ),
           ),
         ));
-    Widget retryButton = Container(
-        margin: EdgeInsets.only(top: 40),
-        child: ElevatedButton(
-          onPressed: selectedResponse != -1
-              ? () {
-                  _retry();
-                }
-              : null,
-          style:
-              ElevatedButton.styleFrom(backgroundColor: Colors.yellow.shade700),
-          child: Container(
-            margin: EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: Text(
-              "Nochmal versuchen?",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-            ),
-          ),
-        ));
+    // Widget retryButton = Container(
+    //     margin: EdgeInsets.only(top: 40),
+    //     child: ElevatedButton(
+    //       onPressed: selectedResponse != -1
+    //           ? () {
+    //               _retry();
+    //             }
+    //           : null,
+    //       style:
+    //           ElevatedButton.styleFrom(backgroundColor: Colors.yellow.shade700),
+    //       child: Container(
+    //         margin: EdgeInsets.all(10),
+    //         alignment: Alignment.center,
+    //         child: Text(
+    //           "Nochmal versuchen?",
+    //           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+    //         ),
+    //       ),
+    //     ));
     Widget nextButton = Container(
         margin: EdgeInsets.only(top: 40),
         child: ElevatedButton(
@@ -375,13 +388,11 @@ class _QuestionPageState extends State<QuestionPage> {
                           setState(() {});
                         }
                       },
-                      initialValues: [
+                      value: [
                         selectedResponse == index,
-                        (responseCorrect != -1
-                                ? responseCorrect == 1
-                                : false) &&
+                        responseCorrect == 1 && selectedResponse == index,
+                        wrongResponse == selectedResponse &&
                             selectedResponse == index,
-                        responseCorrect != -1 ? responseCorrect == 0 : false
                       ],
                       child: Center(
                           child: Text(widget.question.responds[index],
@@ -398,9 +409,7 @@ class _QuestionPageState extends State<QuestionPage> {
             },
             itemCount: widget.question.responds.length,
           ),
-          responseCorrect == 0
-              ? retryButton
-              : (responseCorrect == 1 ? nextButton : checkButton)
+          responseCorrect == 1 ? nextButton : checkButton
         ],
       ),
     );

@@ -3,13 +3,10 @@ import 'package:rive/rive.dart';
 
 class AnimatedRespondButton extends StatefulWidget {
   const AnimatedRespondButton(
-      {super.key,
-      this.child,
-      required this.onTap,
-      required this.initialValues});
+      {super.key, this.child, required this.onTap, required this.value});
   final Widget? child;
   final Function onTap;
-  final List<bool> initialValues;
+  final List<bool> value;
 
   @override
   State<AnimatedRespondButton> createState() => _AnimatedRespondButtonState();
@@ -29,17 +26,17 @@ class _AnimatedRespondButtonState extends State<AnimatedRespondButton> {
     selected = riveController?.findInput<bool>("selected") as SMIBool;
     correct = riveController?.findInput<bool>("correct") as SMIBool;
     incorrect = riveController?.findInput<bool>("incorrect") as SMIBool;
-    selected?.value = widget.initialValues[0];
-    correct?.value = widget.initialValues[1];
-    incorrect?.value = widget.initialValues[2];
+    selected?.value = widget.value[0];
+    correct?.value = widget.value[1];
+    incorrect?.value = widget.value[2];
   }
 
   @override
   void didUpdateWidget(covariant AnimatedRespondButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    selected?.value = widget.initialValues[0];
-    correct?.value = widget.initialValues[1];
-    incorrect?.value = widget.initialValues[2];
+    selected?.value = widget.value[0];
+    correct?.value = widget.value[1];
+    incorrect?.value = widget.value[2];
   }
 
   @override
