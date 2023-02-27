@@ -29,7 +29,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
   Widget getWidget() {
     if (widget.checkpoint.content.runtimeType == Quiz) {
       return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        SizedBox(width: 50),
+        SizedBox(width: 10),
         Row(children: [
           Container(width: widget.checkpoint.position * 30),
           circleWithId(),
@@ -57,19 +57,25 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
       ]);
     } else if (widget.checkpoint.content.runtimeType == Info) {
       return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        SizedBox(width: 50),
+        SizedBox(width: 10),
         Row(children: [
           Container(width: widget.checkpoint.position * 30),
-          circleWithI(Colors.lightGreen, Colors.lightGreen),
+          circleWithId(Colors.lightGreen, Colors.lightGreen),
           Container(width: (1 - widget.checkpoint.position) * 30)
         ]),
         Container(
           margin: EdgeInsets.only(left: 10),
           width: 200,
-          child: Text(
-            widget.checkpoint.title,
-            style: TextStyle(fontSize: 27, fontWeight: FontWeight.w500),
-            textAlign: TextAlign.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.checkpoint.title,
+                style: TextStyle(fontSize: 27, fontWeight: FontWeight.w500),
+                textAlign: TextAlign.start,
+              ),
+              Text("Informationstext ")
+            ],
           ),
         )
       ]);
@@ -119,7 +125,7 @@ class _CheckpointWidgetState extends State<CheckpointWidget> {
       width: 60,
       child: Center(
         child: Container(
-          margin: EdgeInsets.all(22),
+          margin: EdgeInsets.all(0),
           child: Text(widget.checkpoint.id.toString(),
               style: TextStyle(
                   color: Colors.white,

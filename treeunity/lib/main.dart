@@ -91,28 +91,21 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           ),
         ),
-        body: TabBarView(
-            children: [MainPage(), InformationPage()],
-            controller: _tabController),
+        body: TabBarView(children: [
+          MainPage(
+            onClosed: () {
+              setState(() {
+                print("upda");
+              });
+            },
+          ),
+          InformationPage()
+        ], controller: _tabController),
         bottomNavigationBar: PageSelector(
           value: _tabController.index,
           tabController: _tabController,
         ),
         extendBody: true,
-        // bottomNavigationBar: Container(
-        //   child: TabBar(
-        //       tabs: [
-        //         Tab(icon: Icon(Icons.emoji_nature), child: Text("Lernpfad")),
-        //         Tab(
-        //             icon: Icon(Icons.info_outline_rounded),
-        //             child: Text("Information")),
-        //         Tab(icon: Icon(Icons.settings), child: Text("Einstellungen"))
-        //       ],
-        //       labelColor: Colors.white,
-        //       unselectedLabelColor: Colors.white70,
-        //       indicatorColor: Colors.green[100]),
-        //   color: Colors.green,
-        // ),
       ),
     );
   }

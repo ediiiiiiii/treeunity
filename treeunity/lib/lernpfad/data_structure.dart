@@ -109,4 +109,18 @@ class Lernpfad {
     }
     return offsets;
   }
+
+  double progress() {
+    int progress = 0;
+    int count = 0;
+    for (var c in checkpoints) {
+      if (c.content.runtimeType == Quiz) {
+        progress += c.content.currentQuestionIndex() as int;
+        count += c.content.length() as int;
+      }
+    }
+    print(progress);
+    print(count);
+    return progress / count;
+  }
 }

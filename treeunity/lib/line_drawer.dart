@@ -5,7 +5,7 @@ class LineDrawer extends CustomPainter {
       {this.xValue = const [0.1, 0.4, 0.8, 0.6, 0.3, 0.0, 0.2, 0.4, 0.1],
       this.height = 85,
       this.width = 60,
-      this.xOffset = 50,
+      this.xOffset = 10,
       this.xScaling = 30});
   final List<double> xValue;
   final double height;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:treeunity/data/muehlentor.dart';
 import 'package:treeunity/data/pulverturm.dart';
 import 'package:treeunity/data/spielplatz.dart';
 import 'package:treeunity/data/stadtgaertnerhaus.dart';
@@ -11,7 +12,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
       ),
       title: "Bullengehege",
       position: 0.4,
-      id: 0),
+      id: 1),
   Checkpoint(
       content: Quiz(questions: [
         Question(
@@ -36,7 +37,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 1,
         ),
       ]),
-      id: 1,
+      id: 2,
       title: "Pulverturm",
       position: 0.5),
   Checkpoint(
@@ -45,7 +46,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
       ),
       title: "Spielplatz",
       position: 0.4,
-      id: 0),
+      id: 3),
   Checkpoint(
       content: Quiz(questions: [
         Question(
@@ -62,14 +63,14 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
             question:
                 "Was bietet die Motorik-Strecke am Rande des Spielplatzes?",
             responds: [
-              "Fünf Elemente zum Ausprobieren",
-              "Eine 30 Meter lange Seilbahn",
-              "Eine Ritterburg aus Holz"
+              "5 Geräte zum Ausprobieren",
+              "30 Meter lange Seilbahn",
+              "Ritterburg aus Holz"
             ],
             answer: 0,
             child: Image.asset("assets/images/Baum.jpg")),
       ]),
-      id: 2,
+      id: 4,
       title: "Spielplatz",
       position: 0.2),
   Checkpoint(
@@ -80,14 +81,14 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 0,
         ),
       ]),
-      id: 3,
+      id: 5,
       title: "Eisladen",
       position: 0.0),
   Checkpoint(
-      content: Info(title: "Seide", content: StadtgaertnerhausInfo()),
+      content: Info(content: StadtgaertnerhausInfo()),
       title: "Seide",
       position: 0.1,
-      id: 2),
+      id: 6),
   Checkpoint(
       content: Quiz(questions: [
         Question(
@@ -132,7 +133,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 2,
         )
       ]),
-      id: 4,
+      id: 7,
       title: "Stadtgärtnerhaus",
       position: 0.3),
   Checkpoint(
@@ -153,7 +154,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 2,
         ),
       ]),
-      id: 5,
+      id: 8,
       title: "Gymnasium",
       position: 0.6),
   Checkpoint(
@@ -179,9 +180,14 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 2,
         )
       ]),
-      id: 6,
+      id: 9,
       title: "Johanna Schule",
       position: 0.8),
+  Checkpoint(
+      content: Info(content: MuehlentorInfo()),
+      title: "Denkmäler",
+      position: 0.9,
+      id: 10),
   Checkpoint(
       content: Quiz(questions: [
         Question(
@@ -230,7 +236,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 2,
         )
       ]),
-      id: 7,
+      id: 11,
       title: "Mühlentor",
       position: 0.9),
   Checkpoint(
@@ -271,7 +277,7 @@ Lernpfad lernpfad = Lernpfad(checkpoints: [
           answer: 2,
         )
       ]),
-      id: 8,
+      id: 12,
       title: "Kriegerdenkmal",
       position: 0.8),
 ]);

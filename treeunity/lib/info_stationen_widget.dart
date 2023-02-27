@@ -6,13 +6,14 @@ import 'package:treeunity/data/data.dart';
 import 'package:treeunity/line_drawer.dart';
 
 class StationenWidget extends StatelessWidget {
-  const StationenWidget({super.key});
+  const StationenWidget({super.key, this.onClosed});
+  final Function? onClosed;
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-          margin: EdgeInsets.fromLTRB(35, 20, 35, 20),
+          margin: EdgeInsets.symmetric(vertical: 20),
           alignment: Alignment.centerLeft,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,6 +29,11 @@ class StationenWidget extends StatelessWidget {
               ])),
       CheckpointBuilder(
         lernpfad: lernpfad,
+        onClosed: () {
+          if (onClosed != null) {
+            onClosed!();
+          }
+        },
       )
     ]);
   }

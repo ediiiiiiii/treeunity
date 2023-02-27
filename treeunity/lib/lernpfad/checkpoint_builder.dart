@@ -38,8 +38,8 @@ class ColumnBuilder extends StatelessWidget {
 
 class CheckpointBuilder extends StatefulWidget {
   final Lernpfad lernpfad;
-  const CheckpointBuilder({super.key, required this.lernpfad});
-
+  const CheckpointBuilder({super.key, required this.lernpfad, this.onClosed});
+  final Function? onClosed;
   @override
   State<CheckpointBuilder> createState() => _CheckpointBuilderState();
 }
@@ -58,7 +58,11 @@ class _CheckpointBuilderState extends State<CheckpointBuilder> {
             itemBuilder: (context, index) {
               return CheckpointWidget(
                   checkpoint: widget.lernpfad.checkpoints[index],
-                  onClosed: () => setState(() {}));
+                  onClosed: () => setState(() {
+                        if (widget.onClosed != null) {
+                          widget.onClosed!();
+                        }
+                      }));
             },
             itemCount: widget.lernpfad.checkpoints.length));
   }
