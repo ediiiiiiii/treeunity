@@ -4,7 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:treeunity/checkpoint_builder.dart';
+import 'package:treeunity/lernpfad/checkpoint_builder.dart';
 import 'package:treeunity/colored_circle.dart';
 import 'package:treeunity/lernpfad/data_structure.dart';
 import 'package:treeunity/lernpfad/slide_animation.dart';
@@ -12,45 +12,6 @@ import 'package:flutter/animation.dart';
 
 import 'animated_progress_bar.dart';
 import 'animated_response_button.dart';
-
-class AnimatedQuestionPage extends StatefulWidget {
-  const AnimatedQuestionPage(
-      {super.key, required this.question, required this.onNextQuestion});
-  final Function onNextQuestion;
-  final Question question;
-  @override
-  State<AnimatedQuestionPage> createState() => _AnimatedQuestionPageState();
-}
-
-class _AnimatedQuestionPageState extends State<AnimatedQuestionPage> {
-  late Widget questionPage;
-
-  @override
-  void initState() {
-    super.initState();
-    questionPage = QuestionPage(
-      onNextQuestion: () => widget.onNextQuestion(),
-      question: widget.question,
-    );
-  }
-
-  @override
-  void didUpdateWidget(covariant AnimatedQuestionPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    questionPage = QuestionPage(
-      onNextQuestion: () => widget.onNextQuestion(),
-      question: widget.question,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SlideAnimation2(
-      child: questionPage,
-      onFinished: () => print("anim done"),
-    );
-  }
-}
 
 class QuizCompletedWidget extends StatefulWidget {
   const QuizCompletedWidget({super.key, required this.onFinished});

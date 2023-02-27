@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:treeunity/checkpoint_builder.dart';
-import 'package:treeunity/data.dart';
+import 'package:treeunity/lernpfad/checkpoint_builder.dart';
+import 'package:treeunity/data/data.dart';
 import 'package:treeunity/line_drawer.dart';
 
 class StationenWidget extends StatelessWidget {

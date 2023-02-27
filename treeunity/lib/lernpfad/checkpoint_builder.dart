@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:treeunity/checkpoint_widget.dart';
-import 'package:treeunity/data.dart';
+import 'package:treeunity/lernpfad/checkpoint_widget.dart';
+import 'package:treeunity/data/data.dart';
 import 'package:treeunity/line_drawer.dart';
 import 'package:treeunity/lernpfad/data_structure.dart';
 

@@ -63,18 +63,30 @@ class Quiz {
   }
 }
 
+class Info {
+  Info({this.title = "", this.content});
+  String title;
+  Widget? content;
+
+  bool _read = false;
+
+  bool completed() {
+    return _read;
+  }
+}
+
 class Checkpoint {
-  Quiz quiz;
+  dynamic content;
   String title;
   double position;
   int id;
 
   void addListener(Function f) {
-    quiz.addListerner(f);
+    content.addListerner(f);
   }
 
   Checkpoint(
-      {required this.quiz,
+      {required this.content,
       required this.title,
       required this.position,
       required this.id});

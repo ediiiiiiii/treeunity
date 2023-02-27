@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:treeunity/checkpoint_builder.dart';
-import 'package:treeunity/checkpoint_widget.dart';
+import 'package:treeunity/lernpfad/checkpoint_builder.dart';
+import 'package:treeunity/lernpfad/checkpoint_widget.dart';
 import 'package:treeunity/information_page.dart';
 import 'package:treeunity/main_page.dart';
 import 'package:treeunity/info_stationen_widget.dart';
@@ -21,6 +21,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Treeunity',
